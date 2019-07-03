@@ -231,7 +231,7 @@ def address_query(doctype, txt, searchfield, start, page_len, filters):
 		)
 
 	return frappe.db.sql("""select
-			`tabAddress`.name, `tabAddress`.city, `tabAddress`.country
+			`tabAddress`.name,`tabAddress`.address_line1 , `tabAddress`.city
 		from
 			`tabAddress`, `tabDynamic Link`
 		where
@@ -239,7 +239,7 @@ def address_query(doctype, txt, searchfield, start, page_len, filters):
 			`tabDynamic Link`.parenttype = 'Address' and
 			`tabDynamic Link`.link_doctype = %(link_doctype)s and
 			`tabDynamic Link`.link_name = %(link_name)s and
-			`tabAddress`.`{key}` like %(txt)s
+			(`tabAddress`.`{key}` like %(txt)s or `tabAddress`.`address_line1` like %(txt)s)
 			{mcond} {condition}
 		order by
 			if(locate(%(_txt)s, `tabAddress`.name), locate(%(_txt)s, `tabAddress`.name), 99999),
