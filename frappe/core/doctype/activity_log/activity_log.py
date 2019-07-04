@@ -41,6 +41,7 @@ def add_authentication_log(subject, user, operation="Login", status="Success"):
 		"status": status,
 		"subject": subject,
 		"operation": operation,
+		"content":frappe.local.request_ip,
 	}).insert(ignore_permissions=True, ignore_links=True)
 
 def clear_authentication_logs():
